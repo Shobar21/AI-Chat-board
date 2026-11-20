@@ -1,0 +1,23 @@
+# Render "Blueprint": creates the whole app as ONE free web service.
+# The React app is built, then served by the same Node server (no CORS, one URL).
+services:
+  - type: web
+    name: odyra
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AI_API_KEY
+        sync: false # you type this in the Render dashboard; it is never stored in the repo
+      - key: AI_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: AI_MODEL
+        value: qwen/qwen3.8-27b
+      - key: AI_MAX_TOKENS
+        value: "600"
